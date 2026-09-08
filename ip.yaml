@@ -1,6 +1,6 @@
 name: rtc
 version: 0.1.0
-spec: "0.1"
+spec: '0.1'
 kind: ip
 lang: bsv
 identity:
@@ -8,22 +8,103 @@ identity:
   display_name: Real-time clock
   summary: Real-time clock with an alarm.
   category: peripheral
-  subcategories: [rtc]
+  subcategories:
+  - rtc
   ip_family: rtc
-  integration_profile: [apb4-slave]
+  integration_profile:
+  - apb4-slave
   maturity: planned
 contract:
   version: 1
-  ctrl: { shape: flat, aw: 8, dw: 32 }
-  irq: [ { name: irq, kind: level } ]
+  ctrl:
+    shape: flat
+    aw: 8
+    dw: 32
+  irq:
+  - name: irq
+    kind: level
 params:
-  alarms: { type: int, default: 1, range: [1, 4] }
+  alarms:
+    type: int
+    default: 1
+    range:
+    - 1
+    - 4
 features:
-  alarm: { type: bool, default: true }
+  alarm:
+    type: bool
+    default: true
+    area:
+      points:
+        '1': 478.52
+        '2': 606.48
+        '3': 777.56
+        '4': 964.32
+      per: alarms
 emit:
-  - kind: bsv
-    package: Rtc
-    module: mkRtc
-    config_type: RtcCfg
-    interface: RtcIfc
-deps: { hwcore: "^0.1" }
+- kind: bsv
+  package: Rtc
+  module: mkRtc
+  config_type: RtcCfg
+  interface: RtcIfc
+  ctrl: regs
+- kind: verilog-flat
+  bus: apb4
+deps:
+  hwcore: ^0.1
+  amba: ^0.1
+area:
+  base:
+    points:
+      '1': 2543.52
+      '2': 3430.84
+      '3': 4425.12
+      '4': 5375.44
+    per: alarms
+  margin: 0.005
+  model: points-additive
+  error:
+    bound: 0.005
+    sign: over
+    note: parameter curves stored as measured points, features added on top, then
+      lifted by 0.005 so that no untested combination predicts under; the worst came
+      in -0.00 percent under before the lift
+  measured:
+  - at:
+      alarms: 1
+      alarm: false
+    um2: 2543.52
+  - at:
+      alarms: 2
+      alarm: false
+    um2: 3430.84
+  - at:
+      alarms: 3
+      alarm: false
+    um2: 4425.12
+  - at:
+      alarms: 4
+      alarm: false
+    um2: 5375.44
+  - at:
+      alarms: 1
+      alarm: true
+    um2: 3022.04
+  - at:
+      alarms: 2
+      alarm: true
+    um2: 4037.32
+  - at:
+      alarms: 3
+      alarm: true
+    um2: 5202.68
+  - at:
+      alarms: 4
+      alarm: true
+    um2: 6339.76
+  corner:
+    tool: ecc
+    pdk: ics55
+    freq_mhz: 100
+    measured: '2026-09-08'
+    gen_digest: sha256:570d5f47c028ea46
