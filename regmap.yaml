@@ -1,0 +1,31 @@
+ip: rtc
+contract: { aw: 8, dw: 32 }
+base: 0x10007000
+size: 0x100
+params: [alarms]
+regs:
+  - name: cfg
+    offset: 0x00
+    desc: configuration
+    fields:
+      - { name: en,    bits: "12:12", sw: rw, hw: r, reset: 0 }
+      - { name: scale, bits: "3:0",   sw: rw, hw: r, reset: 0 }
+  - name: counter
+    offset: 0x08
+    desc: 64 bit counter, low word read latches the high
+    width: 64
+    atomic: latch-on-low
+    fields: [ { name: val, width: 64, sw: rw, hw: rw, reset: 0 } ]
+  - name: alarm
+    offset: 0x20
+    desc: alarm compare, one per alarm
+    feature: alarm
+    array: { count: alarms, stride: 8 }
+    width: 64
+    fields: [ { name: val, width: 64, sw: rw, hw: r, reset: 0 } ]
+  - name: ista
+    offset: 0x40
+    desc: alarm fired, write one to clear
+    feature: alarm
+    fields:
+      - { name: val, width: 4, sw: rw, onwrite: woclr, hw: r, hwset: true, stickybit: true, reset: 0 }

@@ -1,0 +1,29 @@
+name: rtc
+version: 0.1.0
+spec: "0.1"
+kind: ip
+lang: bsv
+identity:
+  slug: rtc-tapeout-bsv
+  display_name: Real-time clock
+  summary: Real-time clock with an alarm.
+  category: peripheral
+  subcategories: [rtc]
+  ip_family: rtc
+  integration_profile: [apb4-slave]
+  maturity: planned
+contract:
+  version: 1
+  ctrl: { shape: flat, aw: 8, dw: 32 }
+  irq: [ { name: irq, kind: level } ]
+params:
+  alarms: { type: int, default: 1, range: [1, 4] }
+features:
+  alarm: { type: bool, default: true }
+emit:
+  - kind: bsv
+    package: Rtc
+    module: mkRtc
+    config_type: RtcCfg
+    interface: RtcIfc
+deps: { hwcore: "^0.1" }
