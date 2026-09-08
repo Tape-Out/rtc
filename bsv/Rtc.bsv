@@ -32,11 +32,17 @@ module mkRtc#(RtcCfg cfg)(RtcIfc#(aw, dw, alarms))
       pre <= pre + 1;
   endrule
 
+  // 比的是「刚走到」而不是「正等于」。两者复位都是 0，电平比较会让每个
+  // 没配过的闹钟在使能那一刻当场全响；而且计数器在一个值上停留整个分频
+  // 周期，写一清零刚清掉就被硬件重新置上。timer 上出过同一个错。
+  Reg#(Bit#(64)) prevCnt <- mkReg(0);
+
   if (cfg.alarm) begin
     rule fire (r.cfg_en == 1);
       Bit#(4) hit = 0;
       for (Integer i = 0; i < valueOf(alarms); i = i + 1)
-        if (r.counter == r.alarm[i]) hit[i] = 1;
+        if (r.counter == r.alarm[i] && r.counter != prevCnt) hit[i] = 1;
+      prevCnt <= r.counter;
       r.ista_set(hit);
     endrule
   end
