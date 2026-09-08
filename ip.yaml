@@ -36,10 +36,10 @@ features:
     default: true
     area:
       points:
-        '1': 478.52
-        '2': 606.48
-        '3': 777.56
-        '4': 964.32
+        '1': 2037.84
+        '2': 3073.56
+        '3': 4552.8
+        '4': 5319.44
       per: alarms
 emit:
 - kind: bsv
@@ -56,10 +56,10 @@ deps:
 area:
   base:
     points:
-      '1': 2543.52
-      '2': 3430.84
-      '3': 4425.12
-      '4': 5375.44
+      '1': 1759.8
+      '2': 1982.68
+      '3': 1799.28
+      '4': 1871.52
     per: alarms
   margin: 0.005
   model: points-additive
@@ -73,38 +73,38 @@ area:
   - at:
       alarms: 1
       alarm: false
-    um2: 2543.52
+    um2: 1759.8
   - at:
       alarms: 2
       alarm: false
-    um2: 3430.84
+    um2: 1982.68
   - at:
       alarms: 3
       alarm: false
-    um2: 4425.12
+    um2: 1799.28
   - at:
       alarms: 4
       alarm: false
-    um2: 5375.44
+    um2: 1871.52
   - at:
       alarms: 1
       alarm: true
-    um2: 3022.04
+    um2: 3797.64
   - at:
       alarms: 2
       alarm: true
-    um2: 4037.32
+    um2: 5056.24
   - at:
       alarms: 3
       alarm: true
-    um2: 5202.68
+    um2: 6352.08
   - at:
       alarms: 4
       alarm: true
-    um2: 6339.76
+    um2: 7190.96
   corner:
     tool: ecc
     pdk: ics55
     freq_mhz: 100
-    measured: '2026-09-08'
-    gen_digest: sha256:570d5f47c028ea46
+    measured: '2026-09-09'
+    gen_digest: sha256:726e3fb505560f64
