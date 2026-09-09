@@ -36,10 +36,10 @@ features:
     default: true
     area:
       points:
-        '1': 2037.84
-        '2': 3073.56
-        '3': 4552.8
-        '4': 5319.44
+        '1': 2030.0
+        '2': 3115.56
+        '3': 4257.12
+        '4': 5566.68
       per: alarms
 emit:
 - kind: bsv
@@ -66,9 +66,9 @@ area:
   error:
     bound: 0.005
     sign: over
-    note: parameter curves stored as measured points, features added on top, then
-      lifted by 0.005 so that no untested combination predicts under; the worst came
-      in -0.00 percent under before the lift
+    note: parameter curves stored as measured points, features added on top, 
+      then lifted by 0.005 so that no untested combination predicts under; the 
+      worst came in -0.00 percent under before the lift
   measured:
   - at:
       alarms: 1
@@ -89,22 +89,22 @@ area:
   - at:
       alarms: 1
       alarm: true
-    um2: 3797.64
+    um2: 3789.8
   - at:
       alarms: 2
       alarm: true
-    um2: 5056.24
+    um2: 5098.24
   - at:
       alarms: 3
       alarm: true
-    um2: 6352.08
+    um2: 6056.4
   - at:
       alarms: 4
       alarm: true
-    um2: 7190.96
+    um2: 7438.2
   corner:
     tool: ecc
     pdk: ics55
     freq_mhz: 100
-    measured: '2026-09-09'
-    gen_digest: sha256:726e3fb505560f64
+    measured: '2026-09-10'
+    gen_digest: sha256:98936bfef50381a7
