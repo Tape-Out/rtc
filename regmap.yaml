@@ -22,7 +22,8 @@ regs:
     feature: alarm
     array: { count: alarms, stride: 8 }
     width: 64
-    fields: [ { name: val, width: 64, sw: rw, hw: r, reset: 0 } ]
+    # 写了新的比较值要重新武装：设在过去的闹钟必须当场响
+    fields: [ { name: val, width: 64, sw: rw, hw: r, swmod: true, reset: 0 } ]
   - name: ista
     offset: 0x40
     desc: alarm fired, write one to clear

@@ -36,10 +36,10 @@ features:
     default: true
     area:
       points:
-        '1': 2030.0
-        '2': 3115.56
-        '3': 4257.12
-        '4': 5566.68
+        '1': 1435.28
+        '2': 2585.24
+        '3': 3963.4
+        '4': 5020.12
       per: alarms
 emit:
 - kind: bsv
@@ -54,13 +54,10 @@ deps:
   hwcore: ^0.1
   amba: ^0.1
 area:
+  # 基线是「闹钟关掉」那一档，而闹钟关掉时 alarms 一个都不例化——
+  # 基线因此不随它走，四个格点分毫不差。alarms 的钱全在 alarm 那条特性曲线里。
   base:
-    points:
-      '1': 1759.8
-      '2': 1982.68
-      '3': 1799.28
-      '4': 1871.52
-    per: alarms
+    fixed: 1778.28
   margin: 0.005
   model: points-additive
   error:
@@ -73,38 +70,39 @@ area:
   - at:
       alarms: 1
       alarm: false
-    um2: 1759.8
+    um2: 1778.28
   - at:
       alarms: 2
       alarm: false
-    um2: 1982.68
+    um2: 1778.28
   - at:
       alarms: 3
       alarm: false
-    um2: 1799.28
+    um2: 1778.28
   - at:
       alarms: 4
       alarm: false
-    um2: 1871.52
+    um2: 1778.28
   - at:
       alarms: 1
       alarm: true
-    um2: 3789.8
+    um2: 3213.56
   - at:
       alarms: 2
       alarm: true
-    um2: 5098.24
+    um2: 4363.52
   - at:
       alarms: 3
       alarm: true
-    um2: 6056.4
+    um2: 5741.68
   - at:
       alarms: 4
       alarm: true
-    um2: 7438.2
+    um2: 6798.4
   corner:
     tool: ecc
     pdk: ics55
     freq_mhz: 100
-    measured: '2026-09-10'
-    gen_digest: sha256:98936bfef50381a7
+    measured: '2026-09-11'
+    toolchain: bsc 2026.01 · yosys 0.68+195 · ecc 0.1.0a11
+    gen_digest: sha256:3c0a77be81b6513f

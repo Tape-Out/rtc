@@ -82,10 +82,40 @@ if alarm:
       $display("FAIL status not cleared by write one: %08h", x.rdata);
       bad <= True;
     end
-    ph <= Done;
+    ph <= SetPast;
+    s  <= 0;
+  endrule
+
+  // 手册 16.3 的比较是 rtcs >= rtccmp，所以**设在过去的闹钟必须当场响**——
+  // 「读计数、加个差值、写回去」差值算小了就是这种情况，用等于比较的话那一次
+  // 闹钟整整丢掉一圈。
+  //
+  // 值要设得**明显更早**：分频之后计数器在一个值上停留十六拍，写回刚刚响过的
+  // 那个值，等于比较照样命中，判据就分不出两者了。
+  rule setPast (ph == SetPast);
+    case (s)
+      0: wr(8'h20, {A0 - 5});
+      1: wr(8'h24, 0);
+      default: noAction;
+    endcase
+    if (s > 8) begin ph <= CheckPast; s <= 0; end
+    else s <= s + 1;
+  endrule
+
+  rule checkPast (ph == CheckPast);
+    let x <- d.regs.access(RegReq {{ addr: 8'h40, write: False,
+                                     wdata: 0, wstrb: 4'hF }});
+    if (x.rdata[0] == 1) ph <= Done;
+    else if (s > 200) begin
+      $display("FAIL an alarm set in the past never fired");
+      bad <= True;
+      ph <= Done;
+    end
+    else s <= s + 1;
   endrule
 '''
-    verdict = "the prescaler counts, only the configured alarm fires, write one clears"
+    verdict = ("the prescaler counts, only the configured alarm fires, "
+               "write one clears, an alarm set in the past still fires")
 else:
     body = '''  rule setup (ph == Setup);
     case (s)
@@ -140,7 +170,8 @@ import Rtc::*;
 
 // 由 tb/mkrtctb.py 生成，勿手改。这一点：alarms={alarms} alarm={alarm}
 
-typedef enum {{ Setup, Early, Late, Settle, Clear, CheckClear, Done }}
+typedef enum {{ Setup, Early, Late, Settle, Clear, CheckClear,
+               SetPast, CheckPast, Done }}
   Phase deriving (Bits, Eq);
 
 (* synthesize *)
