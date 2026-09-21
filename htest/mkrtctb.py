@@ -168,7 +168,7 @@ txt = f'''package Rtc{label}Tb;
 import RegIf::*;
 import Rtc::*;
 
-// 由 tb/mkrtctb.py 生成，勿手改。这一点：alarms={alarms} alarm={alarm}
+// 由 htest/mkrtctb.py 生成，勿手改。这一点：alarms={alarms} alarm={alarm}
 
 typedef enum {{ Setup, Early, Late, Settle, Clear, CheckClear,
                SetPast, CheckPast, Done }}
